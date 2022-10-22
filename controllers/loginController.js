@@ -1,8 +1,9 @@
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const User = require("../models/User");
+const Vendor = require("../models/Vendor");
 
-const handleLogin = async (req, res) => {
+const handleUserLogin = async (req, res) => {
   const { email, password } = req.body;
   if (!email || !password)
     return res.status(400).json({ message: "Email and password are required" });
@@ -30,7 +31,14 @@ const handleLogin = async (req, res) => {
     foundUser.refreshToken = refreshToken;
     const result = await foundUser.save();
 
-    res.cookie("jwt", refreshToken, {
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      sameSite: "None",
+      secure: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       sameSite: "None",
       secure: true,
@@ -43,4 +51,52 @@ const handleLogin = async (req, res) => {
   }
 };
 
-module.exports = { handleLogin };
+const handleVendorLogin = async (req, res) => {
+  const { email, password } = req.body;
+  if (!email || !password)
+    return res.status(400).json({ message: "Email and password are required" });
+
+  const foundVendor = await Vendor.findOne({ email }).exec();
+
+  if (!foundVendor) return res.sendStatus(401);
+
+  const match = await bcrypt.compare(password, foundVendor.password);
+
+  if (match) {
+    const accessToken = jwt.sign(
+      { id: foundVendor._id, email: foundVendor.email },
+      process.env.ACCESS_TOKEN_SECRET,
+      { expiresIn: "1h" }
+    );
+
+    const refreshToken = jwt.sign(
+      { id: foundVendor._id, email: foundVendor.email },
+      process.env.REFRESH_TOKEN_SECRET,
+      { expiresIn: "1d" }
+    );
+
+    // Save refresh token with current User
+    foundVendor.refreshToken = refreshToken;
+    const result = await foundVendor.save();
+
+    res.cookie("accessToken", accessToken, {
+      httpOnly: true,
+      sameSite: "None",
+      secure: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    res.cookie("refreshToken", refreshToken, {
+      httpOnly: true,
+      sameSite: "None",
+      secure: true,
+      maxAge: 24 * 60 * 60 * 1000,
+    });
+
+    res.json({ accessToken });
+  } else {
+    res.sendStatus(401);
+  }
+};
+
+module.exports = { handleUserLogin, handleVendorLogin };

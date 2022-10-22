@@ -26,13 +26,16 @@ app.use(express.json());
 app.use(cookieParser());
 
 app.use("/auth", require("./routes/auth"));
-// app.use("/refresh", require("./routes/refresh"));
-// app.use("/logout", require("./routes/logout"));
+app.use("/refresh", require("./routes/refresh"));
+app.use("/logout", require("./routes/logout"));
 app.use("/register", require("./routes/register"));
+app.use("/products", require("./routes/products"));
 
 app.use(verifyJWT);
-app.use("/notes", require("./routes/notes"));
+app.use("/vendors", require("./routes/vendors"));
 app.use("/users", require("./routes/users"));
+app.use("/orders", require("./routes/orders"));
+app.use("/addresses", require("./routes/addresses"));
 
 app.all("/*", (req, res) => {
   res.status(404);

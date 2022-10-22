@@ -32,10 +32,6 @@ const updateUser = async (req, res) => {
 
   if (req.body?.firstName) user.firstName = req.body.firstName;
   if (req.body?.lastName) user.lastName = req.body.lastName;
-  if (req.body?.password) {
-    const hashedPassword = await bcrypt.hash(req.body.password, 10);
-    user.password = hashedPassword;
-  }
 
   const result = await user.save();
   const formattedUser = format(result);

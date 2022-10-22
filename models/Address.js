@@ -14,4 +14,4 @@ const addressSchema = new Schema({
   zip: { type: Number, required: true },
 });
 
-module.exports = mongoose.model("User", addressSchema);
+module.exports = mongoose.model("Address", addressSchema);
