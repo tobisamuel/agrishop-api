@@ -31,13 +31,6 @@ const handleUserLogin = async (req, res) => {
     foundUser.refreshToken = refreshToken;
     const result = await foundUser.save();
 
-    res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      sameSite: "None",
-      secure: true,
-      maxAge: 24 * 60 * 60 * 1000,
-    });
-
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
       sameSite: "None",
@@ -78,13 +71,6 @@ const handleVendorLogin = async (req, res) => {
     // Save refresh token with current User
     foundVendor.refreshToken = refreshToken;
     const result = await foundVendor.save();
-
-    res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      sameSite: "None",
-      secure: true,
-      maxAge: 24 * 60 * 60 * 1000,
-    });
 
     res.cookie("refreshToken", refreshToken, {
       httpOnly: true,
