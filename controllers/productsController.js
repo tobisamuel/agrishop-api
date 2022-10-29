@@ -9,15 +9,15 @@ const getAllProducts = async (req, res) => {
 };
 
 const getProduct = async (req, res) => {
-  if (!req?.params?.id)
+  if (!req?.params?.slug)
     return res.status(400).json({ message: "Product ID is required" });
 
-  const product = await Product.findOne({ _id: req.params.id }).exec();
+  const product = await Product.findOne({ slug: req.params.slug }).exec();
 
   if (!product) {
     return res
       .status(204)
-      .json({ message: `No product matches ID ${req.params.id}.` });
+      .json({ message: `No product matches ID ${req.params.slug}.` });
   }
 
   res.json(product);
@@ -62,6 +62,7 @@ const createProduct = async (req, res) => {
   try {
     const result = await Product.create({
       name: name,
+      slug: slugify(name),
       description: description,
       category: category,
       vendorId: vendorId,
@@ -92,6 +93,7 @@ const updateProduct = async (req, res) => {
   const { name, description, category, price, image, inStock } = req.body;
 
   if (name) product.name = name;
+  if (name) product.slug = slugify(name);
   if (description) product.description = description;
   if (category) product.category = category;
   if (price) product.price = price;
@@ -117,6 +119,14 @@ const deleteProduct = async (req, res) => {
   const result = await Product.deleteOne({ _id: req.params.id });
   res.json(result);
 };
+
+const slugify = (str) =>
+  str
+    .toLowerCase()
+    .trim()
+    .replace(/[^\w\s-]/g, "")
+    .replace(/[\s_-]+/g, "-")
+    .replace(/^-+|-+$/g, "");
 
 module.exports = {
   createProduct,
