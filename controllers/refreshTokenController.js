@@ -6,6 +6,12 @@ const handleRefreshToken = async (req, res) => {
   if (!cookies?.refreshToken) return res.sendStatus(401);
   const refreshToken = cookies.refreshToken;
 
+  res.clearCookie("refreshToken", {
+    httpOnly: true,
+    sameSite: "None",
+    secure: true,
+  });
+
   const foundUser = await User.findOne({ refreshToken }).exec();
 
   if (!foundUser) return res.sendStatus(401);
