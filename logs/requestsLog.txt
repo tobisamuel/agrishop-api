@@ -529,3 +529,8 @@
 20221103	09:43:38	3c38d808-fe4c-4c13-a7b6-633e46933d58	GET	undefined	/users/cla0qgzh40000oovc128u3peb/addresses
 20221103	09:48:35	74574430-5632-4fe7-be57-301e4c7713ce	POST	undefined	/users/cla0qgzh40000oovc128u3peb/addresses
 20221103	09:50:27	32621298-5f9e-4ae3-bbab-0cd3bc8af450	GET	undefined	/users/cla0qgzh40000oovc128u3peb/addresses
+20221103	15:15:22	14387228-3090-41b5-91b0-ac16fc881db7	POST	undefined	/auth/user/login
+20221103	15:17:30	08d0180e-eddc-4403-ab97-0021252d259e	POST	undefined	/auth/user/login
+20221103	15:19:45	227f91d5-cd47-4abd-9e89-9c810b9de98f	GET	undefined	/users/cla0qgzh40000oovc128u3peb/wishlist
+20221103	15:19:50	01e73578-0245-44b5-bf6c-36ffa3855c89	GET	undefined	/users/cla0qgzh40000oovc128u3peb
+20221103	15:25:34	f406d598-bf90-427e-880a-f41d7f41fd00	GET	undefined	/users/cla0qgzh40000oovc128u3peb/wishlist

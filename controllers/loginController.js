@@ -8,7 +8,7 @@ const handleUserLogin = async (req, res) => {
   if (!email || !password)
     return res.status(400).json({ message: "Email and password are required" });
 
-  const foundUser = await User.findOne({ email }).exec();
+  const foundUser = await User.findOne({ email }).select("+password").exec();
 
   if (!foundUser) return res.sendStatus(401);
 
@@ -49,7 +49,9 @@ const handleVendorLogin = async (req, res) => {
   if (!email || !password)
     return res.status(400).json({ message: "Email and password are required" });
 
-  const foundVendor = await Vendor.findOne({ email }).exec();
+  const foundVendor = await Vendor.findOne({ email })
+    .select("+password")
+    .exec();
 
   if (!foundVendor) return res.sendStatus(401);
 

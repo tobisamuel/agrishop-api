@@ -10,10 +10,7 @@ const vendorSchema = new Schema(
     lastName: { type: String, required: true },
     email: emailSchema(),
     phoneNumber: { type: String, required: true, unique: true },
-    password: {
-      type: String,
-      required: true,
-    },
+    password: { type: String, required: true, select: false },
     businessName: { type: String, required: true, unique: true },
     businessAddress: { type: String, required: true },
     refreshToken: { type: String },

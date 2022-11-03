@@ -13,7 +13,6 @@ const getUser = async (req, res) => {
       .json({ message: `No User matches ID ${req.params.id}.` });
   }
 
-  const formattedUser = format(user);
   res.json(user);
 };
 
@@ -119,69 +118,6 @@ const getWishlist = async (req, res) => {
   res.json(wishlist);
 };
 
-const getAddresses = async (req, res) => {
-  if (!req?.params?.id)
-    return res.status(400).json({ message: "User ID is required" });
-
-  const user = await User.findOne({ _id: req.params.id })
-    .populate("wishlist")
-    .exec();
-
-  if (!user) {
-    return res
-      .status(204)
-      .json({ message: `No User matches ID ${req.params.id}.` });
-  }
-
-  const addresses = user.addresses;
-  res.json(addresses);
-};
-
-const postAddress = async (req, res) => {
-  if (!req?.params?.id)
-    return res.status(400).json({ message: "User ID is required" });
-
-  const user = await User.findOne({ _id: req.params.id }).exec();
-
-  if (!user) {
-    return res
-      .status(204)
-      .json({ message: `No User matches ID ${req.params.id}.` });
-  }
-
-  const { firstName, lastName, phoneNumber, address, city, state, zip } =
-    req.body;
-
-  if (
-    !firstName ||
-    !lastName ||
-    !phoneNumber ||
-    !address ||
-    !city ||
-    !state ||
-    !zip
-  ) {
-    return res.status(400).json({ message: "Some data might be missing" });
-  }
-
-  try {
-    user.addresses.push({
-      firstName: firstName,
-      lastName: lastName,
-      phoneNumber: phoneNumber,
-      address: address,
-      city: city,
-      state: state,
-      zip: zip,
-    });
-
-    const result = await user.save();
-    res.status(201).json(result);
-  } catch (error) {
-    console.error(error);
-  }
-};
-
 function format(user) {
   return {
     id: user._id,
@@ -195,10 +131,71 @@ function format(user) {
 module.exports = {
   addToWishlist,
   deleteUser,
-  getAddresses,
   getUser,
   getWishlist,
-  postAddress,
   updateUser,
   changePassword,
 };
+
+// const getAddresses = async (req, res) => {
+//   if (!req?.params?.id)
+//     return res.status(400).json({ message: "User ID is required" });
+
+//   const user = await User.findOne({ _id: req.params.id })
+//     .populate("wishlist")
+//     .exec();
+
+//   if (!user) {
+//     return res
+//       .status(204)
+//       .json({ message: `No User matches ID ${req.params.id}.` });
+//   }
+
+//   const addresses = user.addresses;
+//   res.json(addresses);
+// };
+
+// const postAddress = async (req, res) => {
+//   if (!req?.params?.id)
+//     return res.status(400).json({ message: "User ID is required" });
+
+//   const user = await User.findOne({ _id: req.params.id }).exec();
+
+//   if (!user) {
+//     return res
+//       .status(204)
+//       .json({ message: `No User matches ID ${req.params.id}.` });
+//   }
+
+//   const { firstName, lastName, phoneNumber, address, city, state, zip } =
+//     req.body;
+
+//   if (
+//     !firstName ||
+//     !lastName ||
+//     !phoneNumber ||
+//     !address ||
+//     !city ||
+//     !state ||
+//     !zip
+//   ) {
+//     return res.status(400).json({ message: "Some data might be missing" });
+//   }
+
+//   try {
+//     user.addresses.push({
+//       firstName: firstName,
+//       lastName: lastName,
+//       phoneNumber: phoneNumber,
+//       address: address,
+//       city: city,
+//       state: state,
+//       zip: zip,
+//     });
+
+//     const result = await user.save();
+//     res.status(201).json(result);
+//   } catch (error) {
+//     console.error(error);
+//   }
+// };
