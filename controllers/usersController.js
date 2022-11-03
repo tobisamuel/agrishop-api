@@ -74,6 +74,24 @@ const changePassword = async (req, res) => {
   }
 };
 
+const getWishlist = async (req, res) => {
+  if (!req?.params?.id)
+    return res.status(400).json({ message: "User ID is required" });
+
+  const user = await User.findOne({ _id: req.params.id })
+    .populate("wishlist")
+    .exec();
+
+  if (!user) {
+    return res
+      .status(204)
+      .json({ message: `No User matches ID ${req.params.id}.` });
+  }
+
+  const wishlist = user.wishlist;
+  res.json(wishlist);
+};
+
 const addToWishlist = async (req, res) => {
   if (!req?.params?.id) {
     return res.status(400).json({ message: "ID parameter is required" });
@@ -100,13 +118,17 @@ const addToWishlist = async (req, res) => {
   }
 };
 
-const getWishlist = async (req, res) => {
-  if (!req?.params?.id)
-    return res.status(400).json({ message: "User ID is required" });
+const removeFromWishlist = async (req, res) => {
+  if (!req?.params?.id) {
+    return res.status(400).json({ message: "User ID parameter is required" });
+  }
+  if (!req?.body?.id)
+    return res.status(400).json({ message: "Product ID is missing" });
 
-  const user = await User.findOne({ _id: req.params.id })
-    .populate("wishlist")
-    .exec();
+  const user = await User.findOneAndUpdate(
+    { _id: req.params.id },
+    { $pull: { wishlist: req.body.id } }
+  ).exec();
 
   if (!user) {
     return res
@@ -114,7 +136,7 @@ const getWishlist = async (req, res) => {
       .json({ message: `No User matches ID ${req.params.id}.` });
   }
 
-  const wishlist = user.wishlist;
+  const { wishlist } = await user.save();
   res.json(wishlist);
 };
 
@@ -133,6 +155,7 @@ module.exports = {
   deleteUser,
   getUser,
   getWishlist,
+  removeFromWishlist,
   updateUser,
   changePassword,
 };

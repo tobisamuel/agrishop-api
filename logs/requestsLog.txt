@@ -534,3 +534,12 @@
 20221103	15:19:45	227f91d5-cd47-4abd-9e89-9c810b9de98f	GET	undefined	/users/cla0qgzh40000oovc128u3peb/wishlist
 20221103	15:19:50	01e73578-0245-44b5-bf6c-36ffa3855c89	GET	undefined	/users/cla0qgzh40000oovc128u3peb
 20221103	15:25:34	f406d598-bf90-427e-880a-f41d7f41fd00	GET	undefined	/users/cla0qgzh40000oovc128u3peb/wishlist
+20221103	16:33:08	707c1061-2da2-48ab-9382-f93ef174f633	DELETE	undefined	/users/cla0qgzh40000oovc128u3peb/wishlist
+20221103	16:33:13	511d4f65-baf3-4346-a4a2-df5b9a5c0786	POST	undefined	/auth/user/login
+20221103	16:34:11	9c568bb1-c48b-48b7-8e38-1e33b6550e95	POST	undefined	/auth/user/login
+20221103	16:34:25	90a74c6b-8ee8-4b08-9180-697fb48078c2	DELETE	undefined	/users/cla0qgzh40000oovc128u3peb/wishlist
+20221103	16:34:36	4dd66dde-95aa-435e-9d69-c0304ccb86f5	GET	undefined	/users/cla0qgzh40000oovc128u3peb/wishlist
+20221103	16:34:45	5439aede-dfcb-4bf6-8521-302eaeb48f9c	GET	undefined	/users/cla0qgzh40000oovc128u3peb/wishlist
+20221103	16:35:49	8221da24-a78a-4e32-8c52-60a9ab0feae7	DELETE	undefined	/users/cla0qgzh40000oovc128u3peb/wishlist
+20221103	16:35:55	f2cf5558-208e-4d22-91e0-f01bc2f2fd6d	DELETE	undefined	/users/cla0qgzh40000oovc128u3peb/wishlist
+20221103	16:36:01	94d835d7-b853-4a5f-87c5-c0a6c6abe046	GET	undefined	/users/cla0qgzh40000oovc128u3peb/wishlist

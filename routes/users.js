@@ -9,12 +9,17 @@ const {
   updateUser,
   changePassword,
   getWishlist,
+  removeFromWishlist,
 } = require("../controllers/usersController");
 const { getAllOrders } = require("../controllers/ordersController");
 
 router.route("/:id").get(getUser).put(updateUser).delete(deleteUser);
 router.route("/:id/orders").get(getAllOrders);
 router.route("/password").post(changePassword);
-router.route("/:id/wishlist").get(getWishlist).post(addToWishlist);
+router
+  .route("/:id/wishlist")
+  .get(getWishlist)
+  .post(addToWishlist)
+  .put(removeFromWishlist);
 
 module.exports = router;
