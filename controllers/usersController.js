@@ -125,19 +125,16 @@ const removeFromWishlist = async (req, res) => {
   if (!req?.body?.id)
     return res.status(400).json({ message: "Product ID is missing" });
 
-  const user = await User.findOneAndUpdate(
-    { _id: req.params.id },
-    { $pull: { wishlist: req.body.id } }
-  ).exec();
+  try {
+    const user = await User.findOneAndUpdate(
+      { _id: req.params.id },
+      { $pull: { wishlist: req.body.id } }
+    ).exec();
 
-  if (!user) {
-    return res
-      .status(204)
-      .json({ message: `No User matches ID ${req.params.id}.` });
+    res.json({ status: 200, message: `Item removed from wishlist!` });
+  } catch (error) {
+    res.status(500).json({ message: error.message });
   }
-
-  const { wishlist } = await user.save();
-  res.json(wishlist);
 };
 
 function format(user) {
