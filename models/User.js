@@ -3,6 +3,17 @@ const mongoose = require("mongoose");
 const { isEmail } = require("validator");
 const Schema = mongoose.Schema;
 
+const addressSchema = new Schema({
+  _id: { type: String, default: cuid },
+  firstName: { type: String, required: true },
+  lastName: { type: String, required: true },
+  phoneNumber: { type: String, required: true },
+  address: { type: String, required: true },
+  city: { type: String, required: true },
+  state: { type: String, required: true },
+  zip: { type: Number, required: true },
+});
+
 const userSchema = new Schema({
   _id: { type: String, default: cuid },
   firstName: { type: String, required: true },
@@ -12,7 +23,13 @@ const userSchema = new Schema({
     type: String,
     required: true,
   },
-  wishlist: [{ type: Object }],
+  addresses: [addressSchema],
+  wishlist: [
+    {
+      type: String,
+      ref: "Product",
+    },
+  ],
   refreshToken: { type: String },
 });
 
