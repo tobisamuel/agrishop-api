@@ -12,7 +12,9 @@ const getProduct = async (req, res) => {
   if (!req?.params?.slug)
     return res.status(400).json({ message: "Product ID is required" });
 
-  const product = await Product.findOne({ slug: req.params.slug }).exec();
+  const product = await Product.findOne({ slug: req.params.slug })
+    .populate("vendor")
+    .exec();
 
   if (!product) {
     return res
@@ -35,23 +37,14 @@ const getVendorProducts = async (req, res) => {
 };
 
 const createProduct = async (req, res) => {
-  const {
-    name,
-    description,
-    category,
-    vendorId,
-    vendorName,
-    price,
-    image,
-    inStock,
-  } = req.body;
+  const { name, description, category, vendor, price, image, inStock } =
+    req.body;
 
   if (
     !name ||
     !description ||
     !category ||
-    !vendorId ||
-    !vendorName ||
+    !vendor ||
     !price ||
     !image ||
     !inStock
@@ -65,8 +58,7 @@ const createProduct = async (req, res) => {
       slug: slugify(name),
       description: description,
       category: category,
-      vendorId: vendorId,
-      vendorName: vendorName,
+      vendor: vendor,
       price: price,
       image: image,
       inStock: inStock,
@@ -105,18 +97,18 @@ const updateProduct = async (req, res) => {
 };
 
 const deleteProduct = async (req, res) => {
-  if (!req?.params?.id)
+  if (!req?.params?.productId)
     return res.status(400).json({ message: "Product ID is required" });
 
-  const product = await Product.findOne({ _id: req.params.id }).exec();
+  const product = await Product.findOne({ _id: req.params.productId }).exec();
 
   if (!product) {
     return res
       .status(204)
-      .json({ message: `No Product matches ID ${req.params.id}.` });
+      .json({ message: `No Product matches ID ${req.params.productId}.` });
   }
 
-  const result = await Product.deleteOne({ _id: req.params.id });
+  const result = await Product.deleteOne({ _id: req.params.productId });
   res.json(result);
 };
 

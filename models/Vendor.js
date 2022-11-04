@@ -13,7 +13,7 @@ const vendorSchema = new Schema(
     password: { type: String, required: true, select: false },
     businessName: { type: String, required: true, unique: true },
     businessAddress: { type: String, required: true },
-    refreshToken: { type: String },
+    refreshToken: { type: String, select: false },
     approved: { type: Boolean, default: false },
   },
   { timestamps: true }

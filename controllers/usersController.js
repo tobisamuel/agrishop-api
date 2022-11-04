@@ -59,7 +59,7 @@ const changePassword = async (req, res) => {
   if (!id || !oldPassword || !newPassword)
     return res.status(400).json({ message: "Some credentials are missing" });
 
-  const user = await User.findOne({ _id: id }).exec();
+  const user = await User.findOne({ _id: id }).select("+password").exec();
   if (!user) return res.sendStatus(401);
 
   const match = bcrypt.compare(oldPassword, user.password);
