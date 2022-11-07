@@ -97,21 +97,16 @@ const addToWishlist = async (req, res) => {
     return res.status(400).json({ message: "ID parameter is required" });
   }
 
-  const user = await User.findOne({ _id: req.params.id }).exec();
-
-  if (!user) {
-    return res
-      .status(204)
-      .json({ message: `No User matches ID ${req.params.id}.` });
-  }
-
   const { product_id } = req.body;
   if (!product_id)
     return res.status(400).json({ message: "Product ID is missing" });
 
   try {
-    user.wishlist.push(product_id);
-    await user.save();
+    const user = await User.findOneAndUpdate(
+      { _id: req.params.id },
+      { $addToSet: { wishlist: product_id } }
+    ).exec();
+
     res.status(200).json({ status: 200, message: `Item added to wishlist!` });
   } catch (error) {
     res.status(500).json({ message: error.message });
